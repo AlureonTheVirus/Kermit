@@ -1,7 +1,7 @@
 module.exports = {
     name: 'rainbow',
     description: 'bot plays rainbow connection for any user sitting in a vc for more than 5 minutes by themselves',
-    execute(vusers) {
+    execute(vusers, singdelay) {
         if (oldState.channel === null && newState.channel !== null) {
             if (oldState.member.user.bot) return;
             console.log("[SCRIPT] a user has joined a VC!");
@@ -21,12 +21,10 @@ module.exports = {
                             });
                         })
                         .catch((e) => console.log(e));
-                }, 5 * 60000); // ammount of time for Kermit to wait before playing the son
+                }, singdelay); // ammount of time for Kermit to wait before playing the son
             }
         }
 
-        //detect if person leaves vc
-        client.on("voiceStateUpdate", (oldState, newState) => {
             if (oldState.channel !== null && newState.channel === null) {
                 if (oldState.member.user.bot) return;
                 console.log("A user has left the VC!");
@@ -44,9 +42,8 @@ module.exports = {
                                 });
                             })
                             .catch((e) => console.log(e));
-                    }, 5 * 60000); // ammount of time for Kermit to wait before playing the song
+                    }, singdelay); // ammount of time for Kermit to wait before playing the song
                 }
             }
-        });
     },
 };
