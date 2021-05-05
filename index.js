@@ -67,6 +67,40 @@ client.on("voiceStateUpdate", (oldState, newState) => {
                 const command = args.shift().toLowerCase();
 
                 // command handler -----------------------------------------------------------------
+                if (command.permissions) {
+	                const authorPerms = message.channel.permissionsFor(message.author);
+	                if (!authorPerms || !authorPerms.has(command.permissions)) {
+	                  	return message.reply('You can not do this!');
+                  	}
+                }
+            
+                if (command.guildOnly && message.channel.type === 'dm') {
+                	return message.reply('I can\'t execute that command inside DMs!');
+                }
+
+                if (command.args && !args.length) {
+                 	// ...
+                }
+            
+                const { cooldowns } = client;
+
+                if (!cooldowns.has(command.name)) {
+                	cooldowns.set(command.name, new Discord.Collection());
+                }
+
+                const now = Date.now();
+                const timestamps = cooldowns.get(command.name);
+                const cooldownAmount = (command.cooldown || 3) * 1000;
+
+                if (timestamps.has(message.author.id)) {
+	                const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+
+	                if (now < expirationTime) {
+	                 	const timeLeft = (expirationTime - now) / 1000;
+	                 	return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+                 	}
+                }
+            
                 if (!client.commands.has(command)) {
                     message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
                     }
