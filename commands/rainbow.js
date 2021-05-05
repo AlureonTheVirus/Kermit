@@ -15,8 +15,7 @@ module.exports = {
                 oldState.member.voice.channel
                     .join()
                     .then((VoiceConnection) => {
-                        VoiceConnection.play("RainbowConnection.mp3").on("finish", () => {
-                            VoiceConnection.play("RainbowConnection.mp3").on("finish", () => {
+                        VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
                             console.log("Rainbow connection has stopped");
                             VoiceConnection.disconnect();
                         });
@@ -41,7 +40,6 @@ client.on("voiceStateUpdate", (oldState, newState) => {
                     .join()
                     .then((VoiceConnection) => {
                         VoiceConnection.play("RainbowConnection.mp3").on("finish", () => {
-                            VoiceConnection.play("RainbowConnection.mp3").on("finish", () => {
                             VoiceConnection.disconnect();
                         });
                     })
