@@ -26,3 +26,4 @@ module.exports = {
                 .setFooter('Kermit Bot, Made By: Isaac Stanger (@AlureonTheVirus)', 'https://i.imgur.com/jk22m.jpg');
             channel.send(donateEmbed);
         },
+};
