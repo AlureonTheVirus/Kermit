@@ -53,7 +53,12 @@ client.on("voiceStateUpdate", (oldState, newState) => {
 
                 // twss --------------------------------------------------------------------------------
                 if (!message.content.startsWith(prefix) || message.author.bot) {
-                    client.commands.get('twss').execute(message);
+                    if (twssbool === "1") {
+                        twss.threshold = 0.5;
+                        if (twss.is(message.content)) {
+                            message.reply("THATS WHAT SHE SAID!!");
+			}
+		    } 
                 }
 
                 // setup command parsing ----------------------------------------------------------------
