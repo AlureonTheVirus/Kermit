@@ -8,4 +8,5 @@ module.exports = {
                         if (args === "false") {
                             var twssbool = "0";
                         }
-},
+	},
+};
