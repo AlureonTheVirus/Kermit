@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'rainbow connection',
+    name: 'rainbow',
     description: 'bot plays rainbow connection for any user sitting in a vc for more than 5 minutes by themselves',
     execute(vusers) {
         if (oldState.channel === null && newState.channel !== null) {
