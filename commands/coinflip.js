@@ -14,3 +14,4 @@ module.exports = {
 
             message.reply("it's" + randomMessage);
         },
+};
