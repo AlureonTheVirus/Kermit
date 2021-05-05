@@ -18,6 +18,8 @@ const prefix = "$";
 
 var vusers = 0;
 
+var singdelay = /*5*60000*/ 600:
+
 var twssbool = "0";
 
 const blockedUsers = ['id1', 'id2'];
@@ -45,7 +47,7 @@ client.once('ready', () => {
 
 // sing rainbow connection --------------------------------------------------------------------------
 client.on("voiceStateUpdate", (oldState, newState) => {
-            client.commands.get('rainbow').execute(vusers, oldState, newState, client);
+            client.commands.get('rainbow').execute(vusers, oldState, newState, client, singdelay);
         });
 
         // call command files -----------------------------------------------------------------------
