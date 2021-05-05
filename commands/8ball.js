@@ -91,9 +91,5 @@ module.exports = {
                             const randomMessage = messages[Math.floor(Math.random() * messages.length)];
 
                             message.reply("Kermits 8 ball says:" + randomMessage);
-
-                        }
-
-                    }
 	},
 };
