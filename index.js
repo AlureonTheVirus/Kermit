@@ -33,9 +33,17 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
     console.log('[SCRIPT] Kermit can now react to information . . .');
+    client.user.setPresence({
+        activity: { 
+            name: 'Playing: $ping',
+            type: 'WATCHING',
+            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+        },
+        status: 'online'
+    });
 });
 
-// sing rainbow connection ----------------------------------------------------------------
+// sing rainbow connection --------------------------------------------------------------------------
 client.on("voiceStateUpdate", (oldState, newState) => {
             client.commands.get('rainbow').execute(vusers, oldState, newState, client);
         });
