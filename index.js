@@ -18,7 +18,7 @@ const prefix = "$";
 
 var vusers = 0;
 
-var singdelay = /*5*60000*/ 600:
+var singdelay = /*5*60000*/ 600;
 
 var twssbool = "0";
 
