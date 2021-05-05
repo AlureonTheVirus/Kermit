@@ -3,9 +3,11 @@ const fs = require('fs');
 module.exports = {
 	name: 'reload',
 	description: 'Reloads a command/updates Kermit without rebooting',
-  alias: ['restart', 'fix',]
-  cooldown: 5,
-  usage: '<command to reload>',
+        alias: ['restart', 'fix',],
+        cooldown: 5,
+	guildOnly: false,
+	//permissions: 'ADMINISTRATOR',
+        usage: '<command to reload>',
 	args: true,
 	execute(message, args) {
 		const commandName = args[0].toLowerCase();
