@@ -38,14 +38,14 @@ client.once('ready', () => {
 // sing rainbow connection ----------------------------------------------------------------
 client.on("voiceStateUpdate", (oldState, newState) => {
             client.commands.get('rainbow').execute(vusers, oldState, newState, client);
-        }
+        });
 
         // call command files -----------------------------------------------------------------------
         client.on('message', message => {
 
                 // twss --------------------------------------------------------------------------------
                 if (!message.content.startsWith(prefix) || message.author.bot) {
-                    client.commands.get('twss').execute(message, args);
+                    client.commands.get('twss').execute(message);
                 }
 
                 // setup command parsing ----------------------------------------------------------------
@@ -60,10 +60,8 @@ client.on("voiceStateUpdate", (oldState, newState) => {
 
                 // command handler -----------------------------------------------------------------
                 if (!client.commands.has(command)) {
-                    message.reply('unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the '
-                        Kermit Bot ' Discord server. which can be found here: (link coming soon).")
+                    message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
                     }
-
                     try {
                         client.commands.get(command).execute(message, args);
                     } catch (error) {
