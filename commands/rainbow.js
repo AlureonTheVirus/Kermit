@@ -39,7 +39,7 @@ client.on("voiceStateUpdate", (oldState, newState) => {
                 oldState.member.voice.channel
                     .join()
                     .then((VoiceConnection) => {
-                        VoiceConnection.play("RainbowConnection.mp3").on("finish", () => {
+                        VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
                             VoiceConnection.disconnect();
                         });
                     })
