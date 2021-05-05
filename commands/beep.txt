@@ -1,0 +1,5 @@
+module.exports = {
+	name: 'beep',
+	description: 'boop.',
+                message.reply('boop.')
+},
