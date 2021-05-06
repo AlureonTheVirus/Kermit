@@ -12,7 +12,11 @@ const twss = require("twss");
 
 const config = require("./config.json");
 
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
 const client = new Discord.Client();
+
+client.commands = new Discord.Collection();
 
 const prefix = "$";
 
@@ -22,11 +26,7 @@ var singdelay = /*5*60000*/ 600;
 
 var twssbool = "0";
 
-const blockedUsers = ['id1', 'id2'];
-
-client.commands = new Discord.Collection();
-
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const blockedUsers = ['', ''];
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
@@ -45,51 +45,62 @@ client.once('ready', () => {
     });
 });
 
-// sing rainbow connection --------------------------------------------------------------------------
-client.on("voiceStateUpdate", (oldState, newState) => {
-    if (oldState.channel === null && newState.channel !== null) {
-        if (oldState.member.user.bot) return;
-        console.log("[SCRIPT] a user has joined a VC!");
-        vusers = vusers + 1;
-        console.log(vusers);
-        if (vusers === 1) {
-            console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
-            setTimeout(() => {
-                oldState.member.voice.channel
-                    .join()
-                    .then((VoiceConnection) => {
-                        VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
-                            console.log("Rainbow connection has stopped");
-                            VoiceConnection.disconnect();
-                        });
-                    })
-                    .catch((e) => console.log(e));
-            }, singdelay); // ammount of time for Kermit to wait before playing the son
-        }
-    } else {
-        if (oldState.channel !== null && newState.channel === null) {
-            if (oldState.member.user.bot) return;
-            console.log("A user has left the VC!");
-            vusers = vusers - 1;
-            console.log(vusers);
-            if (vusers === 1) {
-                console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
-                setTimeout(() => {
-                    oldState.member.voice.channel
-                        .join()
-                        .then((VoiceConnection) => {
-                            VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
-                                VoiceConnection.disconnect();
-                            });
-                        })
-                        .catch((e) => console.log(e));
-                }, singdelay); // ammount of time for Kermit to wait before playing the song
+client.on("guildCreate", guild => {
+    let channelID;
+    let channels = guild.channels.cache;
+
+    channelLoop:
+        for (let key in channels) {
+            let c = channels[key];
+            if (c[1].type === "text") {
+                channelID = c[0];
+                break channelLoop;
             }
         }
-    }
+
+    let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
+    const embed2 = {
+        "title": "''hi ho! Kermit the Frog here!''",
+        "description": "Thanks for adding me to the server! my prefix is ''$'' you can use it to get my attention!",
+        "url": "",
+        "color": 4279444,
+        "footer": {
+            "icon_url": "https://i.imgur.com/9xnt22b.jpg",
+            "text": "Kermit Bot | Designed By: Isaac Stanger (@AlureonTheVirus)"
+        },
+        "thumbnail": {
+            "url": ""
+        },
+        "image": {
+            "url": ""
+        },
+        "author": {
+            "name": "Kermit - Alureon's bot",
+            "url": "",
+            "icon_url": "https://i.imgur.com/9xnt22b.jpg"
+        },
+        "fields": [{
+                "name": "use $help for a lsit of commands",
+                "value": "."
+            },
+            {
+                "name": "Kermit's Official Discord Server:",
+                "value": "(link coming soon)",
+                "inline": true
+            },
+            {
+                "name": "Github repo:",
+                "value": "Kermit is open source! all of his code can be found here: https://github.com/AlureonTheVirus/Kermit",
+                "inline": true
+            }
+        ]
+    };
+    channel.send({
+        embed2
+    });
 });
 
-// call command files -----------------------------------------------------------------------
+// run whenever a message is sent. . .
 client.on('message', message => {
 
     // twss --------------------------------------------------------------------------------
@@ -163,6 +174,50 @@ client.on('message', message => {
     } catch (error) {
         console.error(error);
         message.reply('there was an error trying to execute that command! (> ${command} <)');
+    }
+});
+
+// sing rainbow connection --------------------------------------------------------------------------
+client.on("voiceStateUpdate", (oldState, newState) => {
+    if (oldState.channel === null && newState.channel !== null) {
+        if (oldState.member.user.bot) return;
+        console.log("[SCRIPT] a user has joined a VC!");
+        vusers = vusers + 1;
+        console.log(vusers);
+        if (vusers === 1) {
+            console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
+            setTimeout(() => {
+                oldState.member.voice.channel
+                    .join()
+                    .then((VoiceConnection) => {
+                        VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
+                            console.log("Rainbow connection has stopped");
+                            VoiceConnection.disconnect();
+                        });
+                    })
+                    .catch((e) => console.log(e));
+            }, singdelay); // ammount of time for Kermit to wait before playing the son
+        }
+    } else {
+        if (oldState.channel !== null && newState.channel === null) {
+            if (oldState.member.user.bot) return;
+            console.log("A user has left the VC!");
+            vusers = vusers - 1;
+            console.log(vusers);
+            if (vusers === 1) {
+                console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
+                setTimeout(() => {
+                    oldState.member.voice.channel
+                        .join()
+                        .then((VoiceConnection) => {
+                            VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
+                                VoiceConnection.disconnect();
+                            });
+                        })
+                        .catch((e) => console.log(e));
+                }, singdelay); // ammount of time for Kermit to wait before playing the song
+            }
+        }
     }
 });
 
