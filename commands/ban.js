@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'ban',
-	description: 'Reloads a command/updates Kermit without rebooting',
+	description: 'bans a user',
         cooldown: 2,
 	guildOnly: true,
 	permissions: 'BAN_MEMBERS',
