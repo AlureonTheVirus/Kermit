@@ -166,15 +166,25 @@ client.on('message', message => {
         }
     }
 
-    if (!client.commands.has(command)) {
-        message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
-    }
-    try {
-        client.commands.get(command).execute(message, args);
+    
+    if (client.responses.has(message.content)) {
+        try {
+        client.commands.get(command).execute(message);
     } catch (error) {
         console.error(error);
-        message.reply('there was an error trying to execute that command! (> ${command} <)');
-    }
+      }
+    } else {
+        
+         if (!client.commands.has(command)) {
+             message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
+         }
+         try {
+             client.commands.get(command).execute(message, args);
+         } catch (error) {
+              console.error(error);
+              message.reply('there was an error trying to execute that command! (> ${command} <)');
+           }
+          }
 });
 
 // sing rainbow connection --------------------------------------------------------------------------
