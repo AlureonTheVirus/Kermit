@@ -46,7 +46,6 @@ client.once('ready', () => {
 });
 
 // sing rainbow connection --------------------------------------------------------------------------
-// sing rainbow connection --------------------------------------------------------------------------
 client.on("voiceStateUpdate", (oldState, newState) => {
     if (oldState.channel === null && newState.channel !== null) {
         if (oldState.member.user.bot) return;
