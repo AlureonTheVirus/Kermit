@@ -10,7 +10,7 @@ const OpusEncoder = require("@discordjs/opus");
 
 const twss = require("twss");
 
-const config = require("./config.json");
+const config = require("../config.json");
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
