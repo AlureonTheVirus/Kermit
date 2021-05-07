@@ -33,7 +33,7 @@ module.exports = {
     },
     {
       "name": "Github repo:",
-      "value": "all of Kermit's source code can be found here: https://github.com/AlureonTheVirus/Kermit",
+      "value": "all of Kermit's source code can be found here: https://github.com/AlureonTheVirus/Kermit, to report bugs/sugest feature requests go to https://github.com/AlureonTheVirus/Kermit/issues",
       "inline": true
     },
     {
