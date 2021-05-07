@@ -18,7 +18,7 @@ module.exports = {
 
 		const reason = args.slice(1).join(' ');
 		try {
-			await message.guild.ban(user, { reason });
+			 message.guild.ban(user, { reason });
 		} catch (error) {
 			return message.channel.send(`Failed to ban **${user.tag}**: ${error}`);
 		}
