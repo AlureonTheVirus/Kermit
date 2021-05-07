@@ -13,7 +13,7 @@ module.exports = {
     "name": "Kermit - Alureon's Bot",
     "icon_url": "https://i.imgur.com/9xnt22b.jpg"
   },
-  "fields": 
+  "fields": [
     {
       "name": "5/6/2021",
       "value": "- added music functionality ($play, $pause, $resume, $skip, $queue, $stop, $volume). updated git repo."
@@ -41,7 +41,7 @@ module.exports = {
       "value": "(link coming soon)",
       "inline": true
     }
-  ]
+  ],
 };
 channel.send({ embed }); 
   },
