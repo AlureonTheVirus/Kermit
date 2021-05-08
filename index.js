@@ -171,7 +171,7 @@ client.on('message', message => {
              message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
          }
          try {
-             client.commands.get(command).execute(message, args);
+             client.commands.get(command).execute(message, args, client, twssbool);
          } catch (error) {
               console.error(error);
               message.reply('there was an error trying to execute that command! (> ${command} <)');
