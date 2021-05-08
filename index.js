@@ -6,6 +6,8 @@ const fs = require('fs');
 
 const ffmpeg = require("ffmpeg");
 
+const avconv = require("avconv");
+
 const OpusEncoder = require("@discordjs/opus");
 
 const twss = require("twss");
