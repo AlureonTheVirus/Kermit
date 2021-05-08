@@ -145,7 +145,7 @@ client.on('message', message => {
 
         return message.channel.send(reply);
     }
-
+/*
     const {
         cooldowns
     } = client;
@@ -166,7 +166,7 @@ client.on('message', message => {
             return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
         }
     }
-
+*/
          if (!client.commands.has(command)) {
              message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
          }
