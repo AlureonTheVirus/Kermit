@@ -30,7 +30,7 @@ var twssbool = "0";
 
 const blockedUsers = ['', ''];
 
-this.queue = new Map();
+const queue = new Map();
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
