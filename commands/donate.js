@@ -20,7 +20,7 @@ module.exports = {
                   },
                   {
                     "name": "Kermit's Official Discord:",
-                     "value": "(link coming soon!)",
+                     "value": "https://discord.gg/YzFtY74t",
                      "inline": true
                    }
                   ]
