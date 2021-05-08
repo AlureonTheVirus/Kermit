@@ -4,6 +4,14 @@ const ytdl = require('ytdl-core');
 
 const fs = require('fs');
 
+const { readdirSync } = require('fs');
+
+const { join } = require('path');
+
+const MusicClient = require('./struct/Client');
+
+const { Collection } = require('discord.js');
+
 const ffmpeg = require("ffmpeg");
 
 const avconv = require("avconv");
@@ -21,6 +29,8 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const prefix = "$";
+
+const client = new MusicClient({ token: config.BOT_TOKEN, prefix: prefix});
 
 var vusers = 0;
 
