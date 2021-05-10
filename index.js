@@ -62,15 +62,7 @@ client.on("guildCreate", guild => {
     let channels = guild.channels.cache;
 
     channelLoop:
-        for (let key in channels) {
-            let c = channels[key];
-            if (c[1].type === "text") {
-                channelID = c[0];
-                break channelLoop;
-            }
-        }
-
-    let channel = guild.channels.cache.get(guild.systemChannelID || channelID);
+    const channel = guild.channels.find(`name`,`welcome`);
     const embed2 = {
         "title": "''hi ho! Kermit the Frog here!''",
         "description": "Thanks for adding me to the server! my prefix is ''$'' you can use it to get my attention!",
