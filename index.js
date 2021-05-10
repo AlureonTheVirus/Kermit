@@ -1,44 +1,21 @@
 const Discord = require("discord.js");
-
 const ytdl = require('ytdl-core');
-
 const fs = require('fs');
-
-const { readdirSync } = require('fs');
-
-const { join } = require('path');
-
-const MusicClient = require('./struct/Client');
-
-const { Collection } = require('discord.js');
-
 const ffmpeg = require("ffmpeg");
-
 const avconv = require("avconv");
-
 const OpusEncoder = require("@discordjs/opus");
-
 const twss = require("twss");
-
 const config = require("../config.json");
-
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
 const client = new Discord.Client();
-
 client.commands = new Discord.Collection();
-
 const prefix = "$";
-
-const client = new MusicClient({ token: config.BOT_TOKEN, prefix: prefix});
-
 var vusers = 0;
-
 var singdelay = /*5*60000*/ 600;
-
 var twssbool = "0";
-
 const blockedUsers = ['', ''];
+this.queue = new Map();
+const queue = new Map();
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
