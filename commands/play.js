@@ -1,71 +1,88 @@
-const { Util } = require('discord.js');
 const ytdl = require('ytdl-core');
 
 module.exports = {
-	name: 'play',
-	description: 'Play command.',
-	usage: '[command name]',
-	args: true,
-	cooldown: 5,
-	async execute(message, args, client, queue) {
-		const { channel } = message.member.voice;
-		if (!channel) return message.channel.send('I\'m sorry but you need to be in a voice channel to play music!');
-		const permissions = channel.permissionsFor(message.client.user);
-		if (!permissions.has('CONNECT')) return message.channel.send('I cannot connect to your voice channel, make sure I have the proper permissions!');
-		if (!permissions.has('SPEAK')) return message.channel.send('I cannot speak in this voice channel, make sure I have the proper permissions!');
+    name: 'play',
+    description: 'Play command.',
+    usage: '$play <song>',
+    args: true,
+    cooldown: 5,
+    async execute(message, args, client) {
+        try {
+            const queue = message.client.queue;
+            const serverQueue = message.client.queue.get(message.guild.id);
 
-		const serverQueue = message.client.queue.get(message.guild.id);
-		const songInfo = await ytdl.getInfo(args[0].replace(/<(.+)>/g, '$1'));
-		const song = {
-			id: songInfo.videoDetails.video_id,
-			title: Util.escapeMarkdown(songInfo.videoDetails.title),
-			url: songInfo.videoDetails.video_url
-		};
+            const voiceChannel = message.member.voice.channel;
+            if (!voiceChannel)
+                return message.channel.send(
+                    "You need to be in a voice channel to play music!"
+                );
+            const permissions = voiceChannel.permissionsFor(message.client.user);
+            if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+                return message.channel.send(
+                    "I need the permissions to join and speak in your voice channel!"
+                );
+            }
 
-		if (serverQueue) {
-			serverQueue.songs.push(song);
-			console.log(serverQueue.songs);
-			return message.channel.send(`✅ **${song.title}** has been added to the queue!`);
-		}
+            const songInfo = await ytdl.getInfo(args[1]);
+            const song = {
+                title: songInfo.videoDetails.title,
+                url: songInfo.videoDetails.video_url
+            };
 
-		const queueConstruct = {
-			textChannel: message.channel,
-			voiceChannel: channel,
-			connection: null,
-			songs: [],
-			volume: 2,
-			playing: true
-		};
-		message.client.queue.set(message.guild.id, queueConstruct);
-		queueConstruct.songs.push(song);
+            if (!serverQueue) {
+                const queueContruct = {
+                    textChannel: message.channel,
+                    voiceChannel: voiceChannel,
+                    connection: null,
+                    songs: [],
+                    volume: 5,
+                    playing: true
+                };
 
-		const play = async song => {
-			const queue = message.client.queue.get(message.guild.id);
-			if (!song) {
-				queue.voiceChannel.leave();
-				message.client.queue.delete(message.guild.id);
-				return;
-			}
+                queue.set(message.guild.id, queueContruct);
 
-			const dispatcher = queue.connection.play(ytdl(song.url))
-				.on('finish', () => {
-					queue.songs.shift();
-					play(queue.songs[0]);
-				})
-				.on('error', error => console.error(error));
-			dispatcher.setVolumeLogarithmic(queue.volume / 5);
-			queue.textChannel.send(`🎶 Start playing: **${song.title}**`);
-		};
+                queueContruct.songs.push(song);
 
-		try {
-			const connection = await channel.join();
-			queueConstruct.connection = connection;
-			play(queueConstruct.songs[0]);
-		} catch (error) {
-			console.error(`I could not join the voice channel: ${error}`);
-			message.client.queue.delete(message.guild.id);
-			await channel.leave();
-			return message.channel.send(`I could not join the voice channel: ${error}`);
-		}
-	},
+                try {
+                    var connection = await voiceChannel.join();
+                    queueContruct.connection = connection;
+                    this.play(message, queueContruct.songs[0]);
+                } catch (err) {
+                    console.log(err);
+                    queue.delete(message.guild.id);
+                    return message.channel.send(err);
+                }
+            } else {
+                serverQueue.songs.push(song);
+                return message.channel.send(
+                    `${song.title} has been added to the queue!`
+                );
+            }
+        } catch (error) {
+            console.log(error);
+            message.channel.send(error.message);
+        }
+    },
+
+    play(message, song) {
+        const queue = message.client.queue;
+        const guild = message.guild;
+        const serverQueue = queue.get(message.guild.id);
+
+        if (!song) {
+            serverQueue.voiceChannel.leave();
+            queue.delete(guild.id);
+            return;
+        }
+
+        const dispatcher = serverQueue.connection
+            .play(ytdl(song.url))
+            .on("finish", () => {
+                serverQueue.songs.shift();
+                this.play(message, serverQueue.songs[0]);
+            })
+            .on("error", error => console.error(error));
+        dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+        serverQueue.textChannel.send(`Start playing: **${song.title}**`);
+    }
 };
