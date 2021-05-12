@@ -34,7 +34,7 @@ client.once('ready', () => {
 });
 
 // run whenever a message is sent. . .
-client.on('message', message => {
+client.on('message', async message => {
             console.log(`[${message.author.username}] ${message.content}`);
             // twss --------------------------------------------------------------------------------
             if (!message.content.startsWith(prefix) || message.author.bot) {
@@ -94,7 +94,7 @@ client.on('message', message => {
                             return console.error(error);
                         }
                         try {
-                           async client.commands.get(command).execute(message, args, client, twssbool, serverQueue);
+                           client.commands.get(command).execute(message, args, client, twssbool, serverQueue);
                         } catch (error) {
                             console.error(error);
                             message.reply(`there was an error trying to execute that command! (>${prefix}${command}<)`);
