@@ -94,7 +94,7 @@ client.on('message', message => {
                             return console.error(error);
                         }
                         try {
-                            client.commands.get(command).execute(message, args, client, twssbool);
+                           async client.commands.get(command).execute(message, args, client, twssbool, serverQueue);
                         } catch (error) {
                             console.error(error);
                             message.reply(`there was an error trying to execute that command! (>${prefix}${command}<)`);
