@@ -14,8 +14,7 @@ var vusers = 0;
 var singdelay = /*5*60000*/ 600;
 var twssbool = "0";
 const blockedUsers = ['', ''];
-this.queue = new Map();
-const queue = new Map();
+const serverQueue = queue.get(message.guild.id);
 
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
