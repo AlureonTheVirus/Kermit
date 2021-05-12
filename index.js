@@ -34,184 +34,126 @@ client.once('ready', () => {
     });
 });
 
-client.on("guildCreate", guild => {
-    let channelID;
-    let channels = guild.channels.cache;
-
-    channelLoop:
-    const channel = guild.channels.find(`name`,`welcome`);
-    const embed2 = {
-        "title": "''hi ho! Kermit the Frog here!''",
-        "description": "Thanks for adding me to the server! my prefix is ''$'' you can use it to get my attention!",
-        "url": "",
-        "color": 4279444,
-        "footer": {
-            "icon_url": "https://i.imgur.com/9xnt22b.jpg",
-            "text": "Kermit Bot | Designed By: Isaac Stanger (@AlureonTheVirus)"
-        },
-        "thumbnail": {
-            "url": ""
-        },
-        "image": {
-            "url": ""
-        },
-        "author": {
-            "name": "Kermit - Alureon's bot",
-            "url": "",
-            "icon_url": "https://i.imgur.com/9xnt22b.jpg"
-        },
-        "fields": [{
-                "name": "use $help for a lsit of commands",
-                "value": "."
-            },
-            {
-                "name": "Kermit's Official Discord Server:",
-                "value": "(link coming soon)",
-                "inline": true
-            },
-            {
-                "name": "Github repo:",
-                "value": "Kermit is open source! all of his code can be found here: https://github.com/AlureonTheVirus/Kermit",
-                "inline": true
-            }
-        ]
-    };
-    channel.send({
-        embed2
-    });
-});
-
 // run whenever a message is sent. . .
 client.on('message', message => {
-    console.log(`[${message.author.username}] -- ${message.content}`);
-    // twss --------------------------------------------------------------------------------
-    if (!message.content.startsWith(prefix) || message.author.bot) {
-        if (twssbool === "1") {
-            twss.threshold = 0.5;
-            if (twss.is(message.content)) {
-                message.reply("THATS WHAT SHE SAID!!");
+            console.log(`[${message.author.username}] ${message.content}`);
+            // twss --------------------------------------------------------------------------------
+            if (!message.content.startsWith(prefix) || message.author.bot) {
+                if (twssbool === "1") {
+                    twss.threshold = 0.5;
+                    if (twss.is(message.content)) {
+                        message.reply("THATS WHAT SHE SAID!!");
+                    }
+                }
             }
-        }
-    }
+            // setup command parsing ----------------------------------------------------------------
 
-    // setup command parsing ----------------------------------------------------------------
+            if (!message.content.startsWith(prefix) || message.author.bot || blockedUsers.includes(message.author.id)) return;
 
-    if (!message.content.startsWith(prefix) || message.author.bot || blockedUsers.includes(message.author.id)) return;
+            const commandBody = message.content.slice(prefix.length);
 
-    const commandBody = message.content.slice(prefix.length);
+            const args = message.content.slice(prefix.length).trim().split(/ +/);
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
+            const command = args.shift().toLowerCase();
 
-    const command = args.shift().toLowerCase();
-    
 
-    // command handler -----------------------------------------------------------------
-    if (command.permissions) {
-        const authorPerms = message.channel.permissionsFor(message.author);
-        if (!authorPerms || !authorPerms.has(command.permissions)) {
-            return message.reply('You can not do this!');
-        }
-    }
 
-    if (command.guildOnly && message.channel.type === 'dm') {
-        return message.reply('I can\'t execute that command inside DMs!');
-    }
+            if (command === "leave") {
+                message.reply("It's been fun! I will be leaving this server in 5 minutes, say your goodbyes (this action cannot be canceled, kermit still has full functionality until the time has pa>
+                    console.log('[SCRIPT] preparing to leave server. . .'); setTimeout(() => {
+                            console.log('[SCRIPT] leave: WORKING . . .');
+                            message.reply("time is up! I will be leaving now, dont worry, you can still see me in my public discord as well as the server @AlureonTheVirus set up yesterday. An invite to that >
+                                message.guild.leave(); console.log('[SCRIPT] leave: OK');
+                            }, 5 * 60000);
+                        return;
+                    }
+                    // command handler -----------------------------------------------------------------
+                    if (command.permissions) {
+                        const authorPerms = message.channel.permissionsFor(message.author);
+                        if (!authorPerms || !authorPerms.has(command.permissions)) {
+                            return message.reply('You dont have sufficiant premissions to execute this command!');
+                        }
+                    }
 
-    if (command.args && !args.length) {
-        let reply = `You didn't provide any arguments, ${message.author}!`;
+                    if (command.guildOnly && message.channel.type === 'dm') {
+                        return message.reply('I can\'t execute that command inside DMs!');
+                    }
 
-        if (command.usage) {
-            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-        }
+                    if (command.args && !args.length) {
+                        let reply = `You didn't provide any arguments, ${message.author}!`;
 
-        return message.channel.send(reply);
-    }
-/*
-    const {
-        cooldowns
-    } = client;
+                        if (command.usage) {
+                            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+                        }
 
-    if (!cooldowns.has(command.name)) {
-        cooldowns.set(command.name, new Discord.Collection());
-    }
+                        return message.channel.send(reply);
+                    }
 
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 3) * 1000;
 
-    if (timestamps.has(message.author.id)) {
-        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+                    if (!client.commands.has(command)) {
+                        message.reply("unknown command >${prefix}${command}<, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the K>
+                            return console.error(error);
+                        }
+                        try {
+                            client.commands.get(command).execute(message, args, client, twssbool);
+                        } catch (error) {
+                            console.error(error);
+                            message.reply(`there was an error trying to execute that command! (>${prefix}${command}<)`);
+                        }
+                    });
+                // sing rainbow connection --------------------------------------------------------------------------
+                client.on("voiceStateUpdate", (oldState, newState) => {
+                    if (oldState.channel === null && newState.channel !== null) {
+                        if (oldState.member.user.bot) return;
+                        console.log("[SCRIPT] a user has joined a VC!");
+                        vusers = vusers + 1;
+                        console.log(vusers);
+                        if (vusers === 1) {
+                            console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
+                            setTimeout(() => {
+                                oldState.member.voice.channel
+                                    .join()
+                                    .then((VoiceConnection) => {
+                                        VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
+                                            console.log("Rainbow connection has stopped");
+                                            VoiceConnection.disconnect();
+                                        });
+                                    })
+                                    .catch((e) => console.log(e));
+                            }, singdelay); // ammount of time for Kermit to wait before playing the son
+                        }
+                    } else {
+                        if (oldState.channel !== null && newState.channel === null) {
+                            if (oldState.member.user.bot) return;
+                            console.log("A user has left the VC!");
+                            vusers = vusers - 1;
+                            console.log(vusers);
+                            if (vusers === 1) {
+                                console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
+                                setTimeout(() => {
+                                    oldState.member.voice.channel
+                                        .join()
+                                        .then((VoiceConnection) => {
+                                            VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
+                                                VoiceConnection.disconnect();
+                                            });
+                                        })
+                                        .catch((e) => console.log(e));
+                                }, singdelay); // ammount of time for Kermit to wait before playing the song
+                            }
+                        }
+                    }
+                    // leave channel if nobody is in it
+                    if (oldState.channelID !== oldState.guild.me.voice.channelID || newState.channel)
+                        return;
 
-        if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-        }
-    }
-*/
-         if (!client.commands.has(command)) {
-             message.reply("unknown command > ${command} <, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the Kermit Bot  Discord server. which can be found here: (link coming soon).");
-         }
-         try {
-             client.commands.get(command).execute(message, args, client, twssbool);
-         } catch (error) {
-              console.error(error);
-              message.reply('there was an error trying to execute that command! (> ${command} <)');
-           }
-});
+                    // otherwise, check how many people are in the channel now
+                    if (!oldState.channel.members.size - 1)
+                        setTimeout(() => { // if 1 (you), wait five minutes
+                            if (!oldState.channel.members.size - 1) // if there's still 1 member,
+                                oldState.channel.leave(); // leave
+                        }, 600); // (5 min in ms)
 
-// sing rainbow connection --------------------------------------------------------------------------
-client.on("voiceStateUpdate", (oldState, newState) => {
-    if (oldState.channel === null && newState.channel !== null) {
-        if (oldState.member.user.bot) return;
-        console.log("[SCRIPT] a user has joined a VC!");
-        vusers = vusers + 1;
-        console.log(vusers);
-        if (vusers === 1) {
-            console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
-            setTimeout(() => {
-                oldState.member.voice.channel
-                    .join()
-                    .then((VoiceConnection) => {
-                        VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
-                            console.log("Rainbow connection has stopped");
-                            VoiceConnection.disconnect();
-                        });
-                    })
-                    .catch((e) => console.log(e));
-            }, singdelay); // ammount of time for Kermit to wait before playing the son
-        }
-    } else {
-        if (oldState.channel !== null && newState.channel === null) {
-            if (oldState.member.user.bot) return;
-            console.log("A user has left the VC!");
-            vusers = vusers - 1;
-            console.log(vusers);
-            if (vusers === 1) {
-                console.log("[SCRIPT] there is only one user in a VC, kermit preparing to sing for them!");
-                setTimeout(() => {
-                    oldState.member.voice.channel
-                        .join()
-                        .then((VoiceConnection) => {
-                            VoiceConnection.play("RainbowConnection1.mp3").on("finish", () => {
-                                VoiceConnection.disconnect();
-                            });
-                        })
-                        .catch((e) => console.log(e));
-                }, singdelay); // ammount of time for Kermit to wait before playing the song
-            }
-        }
-    }
-// leave channel if nobody is in it
-  if (oldState.channelID !==  oldState.guild.me.voice.channelID || newState.channel)
-    return;
+                });
 
-  // otherwise, check how many people are in the channel now
-  if (!oldState.channel.members.size - 1)
-    setTimeout(() => { // if 1 (you), wait five minutes
-      if (!oldState.channel.members.size - 1) // if there's still 1 member,
-         oldState.channel.leave(); // leave
-     }, 600); // (5 min in ms)
-
-});
-
-client.login(config.BOT_TOKEN);
+                client.login(config.BOT_TOKEN);
