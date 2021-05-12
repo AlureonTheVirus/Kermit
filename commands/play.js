@@ -6,8 +6,8 @@ module.exports = {
     usage: '$play <song>',
     args: true,
 
-    execute(message, args, serverQueue) {
-        const queue = new Map();
+   async execute(message, args, serverQueue) {
+        const serverQueue = queue.get(message.guild.id);
         const voiceChannel = message.member.voice.channel;
         const permissions = voiceChannel.permissionsFor(message.client.user);
         if (!voiceChannel) {
