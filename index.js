@@ -6,6 +6,7 @@ const avconv = require("avconv");
 const OpusEncoder = require("@discordjs/opus");
 const twss = require("twss");
 const config = require("../config.json");
+const stuff = require("./stuff.json")
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
