@@ -1,0 +1,12 @@
+{
+    /*
+    This is an example config file to run kermit, you will need to make your own and place it in the parent directory of the bot. 
+    For the scripts in this repo, it must be named config.json, but by changing the index.js file you can make it whatever you want.
+
+    -Alureon
+    */
+
+  const BOT_TOKEN = <YOUR_BOT_TOKEN_GOES_HERE>;
+  const dev_ids = ["", ""]; // this is for any user you want to be able to use dev commands (inv, leave). theres probably only one dev (you), but you can add as many as you want. the second value was left to show that you can do it if you want to.
+  const blocked_ids = ["", ""]; // these should be any user you dont want your bot to interact with. Kermit will not read or react to their messages beyond echoing them to the terminal.
+}
