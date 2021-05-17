@@ -89,7 +89,7 @@ client.on('message', async message => {
 
 
                     if (!client.commands.has(command)) {
-                        message.reply("unknown command >${prefix}${command}<, Make sure you typed everything correctly and that this command exists. If this seems to be a bug you can report it in the K>
+                        message.reply("unknown command >${prefix}${command}<, Make sure you typed everything correctly and that this command exists.");
                             return console.error(error);
                         }
                         try {
