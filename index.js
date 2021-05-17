@@ -57,17 +57,6 @@ client.on('message', async message => {
 
             const command = args.shift().toLowerCase();
 
-
-
-            if (command === "leave") {
-                message.reply("It's been fun! I will be leaving this server in 5 minutes, say your goodbyes (this action cannot be canceled, kermit still has full functionality until the time has pa>
-                    console.log('[SCRIPT] preparing to leave server. . .'); setTimeout(() => {
-                            console.log('[SCRIPT] leave: WORKING . . .');
-                            message.reply("time is up! I will be leaving now, dont worry, you can still see me in my public discord as well as the server @AlureonTheVirus set up yesterday. An invite to that >
-                                message.guild.leave(); console.log('[SCRIPT] leave: OK');
-                            }, 5 * 60000);
-                        return;
-                    }
                     // command handler -----------------------------------------------------------------
                     if (command.permissions) {
                         const authorPerms = message.channel.permissionsFor(message.author);
