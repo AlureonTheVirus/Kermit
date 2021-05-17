@@ -27,9 +27,9 @@ client.once('ready', () => {
     console.log('[SCRIPT] Kermit can now react to information . . .');
     client.user.setPresence({
         activity: {
-            name: 'Playing: $ping',
+            name: '"Bork Bork Bork!!"',
             type: 'STREAMING',
-            url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+            url: 'https://www.youtube.com/watch?v=B7UmUX68KtE'
         },
         status: 'online'
     });
