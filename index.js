@@ -38,6 +38,14 @@ client.once('ready', () => {
 // run whenever a message is sent. . .
 client.on('message', async message => {
             console.log(`[${message.author.username}] ${message.content}`);
+    
+            var allowedToUse = true;
+            blocked_ids.forEach(id => {
+                if (message.author.id == id)
+                    allowedToUse = true;
+            });
+            if !(allowedToUse) return;
+            
             // twss --------------------------------------------------------------------------------
             if (!message.content.startsWith(prefix) || message.author.bot) {
                 if (twssbool === "1") {
@@ -56,7 +64,7 @@ client.on('message', async message => {
             const args = message.content.slice(prefix.length).trim().split(/ +/);
 
             const command = args.shift().toLowerCase();
-
+                    
                     // command handler -----------------------------------------------------------------
                     if (command.permissions) {
                         const authorPerms = message.channel.permissionsFor(message.author);
@@ -143,7 +151,6 @@ client.on('message', async message => {
                             if (!oldState.channel.members.size - 1) // if there's still 1 member,
                                 oldState.channel.leave(); // leave
                         }, 600); // (5 min in ms)
-
-                });
+           });
 
                 client.login(config.BOT_TOKEN);
