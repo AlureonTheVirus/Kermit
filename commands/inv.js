@@ -6,7 +6,7 @@ module.exports = {
         var allowedToUse_dev = false;
         dev_ids.forEach(id => {
             if (message.author.id == id)
-                allowedToUse = true;
+                allowedToUse_dev = true;
         });
 
         if (allowedToUse_dev) {
