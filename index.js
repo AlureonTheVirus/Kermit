@@ -14,7 +14,8 @@ const prefix = "$";
 var vusers = 0;
 var singdelay = /*5*60000*/ 600;
 var twssbool = "0";
-const blockedUsers = ['', ''];
+const blocked_ids = ['', ''];
+const dev_ids = [''];
 const queue = new.Map();
 
 for (const file of commandFiles) {
