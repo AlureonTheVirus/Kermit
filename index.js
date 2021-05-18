@@ -37,7 +37,7 @@ client.once('ready', () => {
 
 // run whenever a message is sent. . .
 client.on('message', async message => {
-            console.log(`[${message.author.username}] ${message.content}`);
+            console.log(`[${message.author.username > message.channel.name > message.guild}] ${message.content}`);
     
             var allowedToUse = true;
             blocked_ids.forEach(id => {
