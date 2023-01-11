@@ -1,1 +1,3 @@
 This is Kermit, A discord bot for managing servers, messing around, and just plain old having a good time.
+
+...I gave up on this project a while ago so its just here for posterity and the like...
